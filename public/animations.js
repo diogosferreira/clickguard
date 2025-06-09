@@ -1,1 +1,3 @@
-console.log("animations");
+export function initAnimations() {
+    console.log("animations running");
+  }
