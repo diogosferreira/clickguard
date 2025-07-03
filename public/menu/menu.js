@@ -1,7 +1,6 @@
 
 export function menu() {
 
-
     if (window.matchMedia("(min-width: 991px)").matches) {
         ScrollTrigger.create({
             start: "top top",

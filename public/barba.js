@@ -6,6 +6,8 @@ import { googleBackground } from './animations/google-background.js';
 import { swiperTestimonials } from './swiper/swiper-testimonials.js';
 import { menu } from './menu/menu.js';
 import { copyright } from './copyright/copyright.js';
+import { pricing } from './pricing/pricing.js';
+import { expandableCards } from './expandable-cards/expandable-cards.js';
 
 initAnimations();
 homeMarquee();
@@ -15,3 +17,5 @@ integrationsMarquee();
 swiperTestimonials();
 menu();
 copyright();
+pricing();
+expandableCards();

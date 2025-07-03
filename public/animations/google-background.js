@@ -9,5 +9,4 @@ export function googleBackground() {
         ease: "linear",
         repeat: -1,
     });
-
 }
