@@ -8,6 +8,7 @@ import { menu } from './menu/menu.js';
 import { copyright } from './copyright/copyright.js';
 import { pricing } from './pricing/pricing.js';
 import { expandableCards } from './expandable-cards/expandable-cards.js';
+import { formatsweprotect } from './ad-engines.js/formats-we-protect.js';
 
 initAnimations();
 homeMarquee();
@@ -19,3 +20,6 @@ menu();
 copyright();
 pricing();
 expandableCards();
+
+
+formatsweprotect();
