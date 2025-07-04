@@ -1,3 +1,4 @@
+import { gsapTitles } from './gsap/titles.js';
 import { initAnimations } from './animations/animations.js';
 import { homeMarquee } from './marquee/home-marquee.js';
 import { integrationsMarquee } from './marquee/integrations-marquee.js';
@@ -9,6 +10,10 @@ import { copyright } from './copyright/copyright.js';
 import { pricing } from './pricing/pricing.js';
 import { expandableCards } from './expandable-cards/expandable-cards.js';
 import { formatsweprotect } from './ad-engines.js/formats-we-protect.js';
+
+
+
+gsapTitles();
 
 initAnimations();
 homeMarquee();
