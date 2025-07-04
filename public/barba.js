@@ -1,4 +1,5 @@
 import { gsapTitles } from './gsap/titles.js';
+import { gsapScrollAnimations } from './gsap/scroll-animations.js';
 import { initAnimations } from './animations/animations.js';
 import { homeMarquee } from './marquee/home-marquee.js';
 import { integrationsMarquee } from './marquee/integrations-marquee.js';
@@ -14,6 +15,7 @@ import { formatsweprotect } from './ad-engines.js/formats-we-protect.js';
 
 
 gsapTitles();
+gsapScrollAnimations();
 
 initAnimations();
 homeMarquee();

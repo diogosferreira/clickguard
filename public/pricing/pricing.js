@@ -133,31 +133,63 @@ export function pricing() {
     // Calculator
     // ————————————————————————————————————————————————————————
     // ————————————————————————————————————————————————————————
-    // Set only the first component as active on page load
-    const $components = $('.pricing-calculator-component');
-    $components.removeClass('is-active');
-    $components.find('.pricing-calculator-arrow, .pricing-calculator-bg').css('opacity', 0);
-    $components.first().addClass('is-active')
-        .find('.pricing-calculator-arrow, .pricing-calculator-bg').css('opacity', 1);
 
-    // On click handler
-    $components.on('click', function () {
-        const $this = $(this);
+    //define what user can write
+    $("[data-pricing-calc-input=true]").on("input", function () {
+        let val = $(this).val();
 
-        // Remove active state from all
-        $components.removeClass('is-active');
-        $components.find('.pricing-calculator-arrow, .pricing-calculator-bg').css('opacity', 0);
+        // Remove everything except digits, comma, and dot
+        val = val.replace(/[^0-9,\.]/g, "");
 
-        // Add active to clicked
-        $this.addClass('is-active');
-        $this.find('.pricing-calculator-arrow, .pricing-calculator-bg').css('opacity', 1);
+        // Convert dot to comma
+        val = val.replace(/\./g, ",");
 
-        // Read attributes and apply to result elements
-        const clicks = $this.attr('data-clicks-bloqued');
-        const save = $this.attr('data-save');
+        // Split by comma to handle decimals
+        let parts = val.split(",");
 
-        $('[data-clicks-result]').text(clicks);
-        $('[data-save-result]').text(save);
+        if (parts.length > 2) {
+            // If user types multiple commas, keep only first decimal
+            val = parts[0] + "," + parts[1];
+            parts = val.split(",");
+        }
+
+        if (parts[1] && parts[1].length > 2) {
+            // Limit to 2 decimal places if decimals exist
+            parts[1] = parts[1].slice(0, 2);
+            val = parts.join(",");
+        }
+
+        // Add $ prefix
+        $(this).val(`$${val}`);
+    });
+
+    //Calculator calcs
+    function calculateResults() {
+        const budgetInput = $("input[data-ad-budget=true]").val().replace(/[^0-9.,]/g, "").replace(",", ".");
+        const cpcInput = $("input[data-average-cpc=true]").val().replace(/[^0-9.,]/g, "").replace(",", ".");
+
+        const budget = parseFloat(budgetInput) || 0;
+        const cpc = parseFloat(cpcInput) || 0;
+
+        if (budget > 0 && cpc > 0) {
+            const invalidRate = 0.2489;
+            const totalClicks = budget / cpc;
+            const clicksBlocked = totalClicks * invalidRate;
+            const savings = clicksBlocked * cpc;
+
+            // Update outputs
+            $("[data-clicks-result]").text(Math.round(clicksBlocked));
+            $("[data-save-result]").text(`$${savings.toFixed(2)}/mo`);
+        } else {
+            // If inputs are invalid, clear outputs
+            $("[data-clicks-result]").text("0");
+            $("[data-save-result]").text("$0.00/mo");
+        }
+    }
+
+    // Run calculation on input
+    $("[data-pricing-calc-input=true]").on("input", function () {
+        calculateResults();
     });
 
 
