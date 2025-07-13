@@ -1,4 +1,4 @@
-gsap.registerPlugin(ScrollTrigger);
+/*gsap.registerPlugin(ScrollTrigger);
 
 const cards = document.querySelectorAll(".case-study_component");
 const totalCards = cards.length;
@@ -58,4 +58,4 @@ cards.forEach((card, i) => {
             }, "+=0.3"); // delay stack effect slightly after card animates in
         }
     });
-});
+});*/
