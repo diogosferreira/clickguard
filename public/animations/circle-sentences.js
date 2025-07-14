@@ -3,6 +3,46 @@ export function circleSentences() {
     const element = document.querySelector(".circle-wrapper");
     if (!element) return;
 
+
+    const wrapper = document.querySelector(".circle-wrapper");
+    const wrapperWidth = wrapper.offsetWidth;
+    const radius = wrapperWidth / 2;
+
+    const sentences = document.querySelectorAll(".sentence");
+    const degreeStep = 20;
+    const numSentences = sentences.length;
+
+    // Position each sentence
+    sentences.forEach((el, i) => {
+        const angle = i * degreeStep;
+        const rad = angle * (Math.PI / 180);
+        const x = radius * Math.cos(rad);
+        const y = radius * Math.sin(rad);
+
+        gsap.set(el, {
+            x: x,
+            y: y,
+            rotation: angle
+        });
+    });
+
+    // Total rotation
+    const totalRotation = -(numSentences - 1) * degreeStep;
+
+    // Rotation animation
+    gsap.to(".circle-wrapper", {
+        rotation: totalRotation,
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".circle-wrapper",
+            start: "center 80%",
+            end: "center 40%",
+            scrub: true
+        }
+    });
+
+
+    /*
     const wrapper = document.querySelector(".circle-wrapper");
     const wrapperWidth = wrapper.offsetWidth;
     const radius = wrapperWidth / 2;
@@ -25,34 +65,12 @@ export function circleSentences() {
             rotation: angle // initial rotation aligned with circle
         });
     });
-    // Animate rotation with ScrollTrigger
-    /*
-    gsap.to(".circle-wrapper", {
-        rotation: -80, // negative rotation for opposite direction
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".circle-wrapper",
-            start: "center 80%",
-            end: "center 40%",
-            scrub: true,
-            onUpdate: function (self) {
-                const progressPercentage = self.progress * 100;
-                console.log("Scroll progress: " + progressPercentage.toFixed(2) + "%");
 
-                const sentenceRange = 100 / numSentences; // e.g. 25% for 4 sentences
-                const activeIndex = Math.floor(progressPercentage / sentenceRange);
 
-                sentences.forEach((el, i) => {
-                    if (i === activeIndex) {
-                        gsap.to(el, { opacity: 1, duration: 0.2 });
-                    } else {
-                        gsap.to(el, { opacity: 0, duration: 0.2 });
-                    }
-                });
-            }
-        }
-    });*/
+    //const totalRotation = -(numSentences - 1) * degreeStep;
+    const totalRotation = -80;
 
+    
     // Animate rotation with ScrollTrigger
     gsap.to(".circle-wrapper", {
         rotation: -80, // negative rotation for opposite direction
@@ -85,6 +103,6 @@ export function circleSentences() {
                 });
             }
         }
-    });
+    });*/
 
 }
