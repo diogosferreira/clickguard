@@ -82,8 +82,8 @@ export function expandableCardsOverflow() {
 
 
         var swiper_base = new Swiper(".swiper-expandable-cards-overflow", {
-            slidesPerView: 1.5,
-            spaceBetween: 32,
+            slidesPerView: 1.2,
+            spaceBetween: 16,
             centeredSlides: false,
             loop: false,
 
@@ -94,10 +94,10 @@ export function expandableCardsOverflow() {
                     //slidesPerView: 1,
                 },
                 1024: {
-                    spaceBetween: 40,
+                    spaceBetween: 32,
                 },
                 1400: {
-                    spaceBetween: 40,
+                    spaceBetween: 32,
                 },
             },
         });

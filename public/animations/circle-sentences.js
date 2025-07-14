@@ -29,6 +29,9 @@ export function circleSentences() {
     // Total rotation
     const totalRotation = -(numSentences - 1) * degreeStep;
 
+    // Ensure starting rotation is always 0
+    gsap.set(".circle-wrapper", { rotation: 0 });
+
     // Rotation animation
     gsap.to(".circle-wrapper", {
         rotation: totalRotation,
