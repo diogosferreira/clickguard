@@ -2,6 +2,7 @@ import { gsapTitles } from './gsap/titles.js';
 import { gsapScrollAnimations } from './gsap/scroll-animations.js';
 import { initAnimations } from './animations/animations.js';
 import { stackingCards } from './animations/stacking-cards.js';
+import { featuresImages } from './animations/features-images.js';
 import { homeMarquee } from './marquee/home-marquee.js';
 import { integrationsMarquee } from './marquee/integrations-marquee.js';
 import { whyMarquee } from './marquee/why-marquee.js';
@@ -22,6 +23,7 @@ import { textMarquee } from './animations/text-marquee.js';
 
 
 gsapTitles();
+featuresImages();
 gsapScrollAnimations();
 
 initAnimations();

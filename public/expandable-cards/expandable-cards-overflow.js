@@ -78,9 +78,6 @@ export function expandableCardsOverflow() {
         });
     } else {
         //IS MOBILE
-
-
-
         var swiper_base = new Swiper(".swiper-expandable-cards-overflow", {
             slidesPerView: 1.2,
             spaceBetween: 16,
