@@ -31,7 +31,7 @@ export function swiperSolves() {
 
             on: {
                 slideChange: function () {
-                    swiper.pagination.update();
+                    this.pagination.update();
                 },
             },
         });
