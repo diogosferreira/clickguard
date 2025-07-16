@@ -5,41 +5,44 @@ export function stackingCards() {
 
 
     if ($(window).width() > 991) {
-        const cards = gsap.utils.toArray(".stackingcard");
 
-        cards.forEach((card, i) => {
-            const isLast = i === cards.length - 1;
+        $(window).on("load", function () {
+            const cards = gsap.utils.toArray(".stackingcard");
 
-            gsap.to(card, {
-                scale: 0.8 + i * 0.035,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top-=" + 20 * i + " 20%",
-                    end: "top 10%",
-                    scrub: true,
-                    onUpdate: self => {
-                        if (!isLast) {
-                            const progress = self.progress;
-                            const blur = progress * 2;
-                            card.style.filter = `blur(${blur}px)`;
+            cards.forEach((card, i) => {
+                const isLast = i === cards.length - 1;
+
+                gsap.to(card, {
+                    scale: 0.8 + i * 0.035,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top-=" + 20 * i + " 20%",
+                        end: "top 10%",
+                        scrub: true,
+                        onUpdate: self => {
+                            if (!isLast) {
+                                const progress = self.progress;
+                                const blur = progress * 2;
+                                card.style.filter = `blur(${blur}px)`;
+                            }
                         }
                     }
-                }
+                });
+
+                ScrollTrigger.create({
+                    trigger: card,
+                    start: "top-=" + 20 * i + " 20%",
+                    end: "top center",
+                    endTrigger: ".end-element",
+                    pin: true,
+                    pinSpacing: false,
+                    id: "card-" + i
+                });
             });
 
-            ScrollTrigger.create({
-                trigger: card,
-                start: "top-=" + 20 * i + " 20%",
-                end: "top center",
-                endTrigger: ".end-element",
-                pin: true,
-                pinSpacing: false,
-                id: "card-" + i
-            });
+            ScrollTrigger.refresh();
         });
-
-        ScrollTrigger.refresh();
     }
 
 
