@@ -28,7 +28,7 @@ export function filters() {
                 $(this).find(".filter-button").first().addClass("is-active");
             });
 
-            $("[filter-button][class*='is-dropdown']").first().click();
+            //$("[filter-button][class*='is-dropdown']").first().click();
         }, 300);
     });
 
