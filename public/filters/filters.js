@@ -13,6 +13,8 @@ export function filters() {
              $("[filter-button]").removeClass("is-active");
          });*/
 
+
+        /*
         // Reset all within group when clicking any filter
         $(".filter-group").each(function () {
             const $group = $(this);
@@ -82,7 +84,7 @@ export function filters() {
          }
      });*/
 
+*/
 
 
-
-}
+    }
