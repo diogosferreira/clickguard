@@ -34,6 +34,10 @@ export function filters() {
 
 
     //FILTERS DROPDOWNS
+    // ——————————————————————————————————————————————————————————————————————
+    // ——————————————————————————————————————————————————————————————————————
+    // ——————————————————————————————————————————————————————————————————————
+
     $(document).ready(function () {
         $(".filter-dropdown input[type='radio']").on("change", function () {
             const selectedText = $(this).siblings(".filter-button-label").text();
@@ -49,34 +53,34 @@ export function filters() {
 
 
     //HIDE FIRST 3
-    $(".success-list-filters .success-story-list-component:lt(3)").hide();
-
-
-    $(document).on("click", function () {
-        let hasActive = false;
-
-        $(".filter-group").each(function () {
-            const $buttons = $(this).find(".filter-button");
-            const $otherButtons = $buttons.not($buttons.first());
-
-            if ($otherButtons.is(".is-active")) {
-                hasActive = true;
-            }
-        });
-
-        if (hasActive) {
-            //console.log("At least one filter (not 'show all') is active on the page.");
-            setTimeout(function () {
-                $(".filters-active-hide").hide();
-            }, 150);
-            $(".success-list-filters .success-story-list-component:lt(3)").show();
-        } else {
-
-            //console.log("Only 'show all' is active everywhere.");
-            $(".filters-active-hide").show();
-
-        }
-    });
+    /* $(".success-list-filters .success-story-list-component:lt(3)").hide();
+ 
+ 
+     $(document).on("click", function () {
+         let hasActive = false;
+ 
+         $(".filter-group").each(function () {
+             const $buttons = $(this).find(".filter-button");
+             const $otherButtons = $buttons.not($buttons.first());
+ 
+             if ($otherButtons.is(".is-active")) {
+                 hasActive = true;
+             }
+         });
+ 
+         if (hasActive) {
+             //console.log("At least one filter (not 'show all') is active on the page.");
+             setTimeout(function () {
+                 $(".filters-active-hide").hide();
+             }, 150);
+             $(".success-list-filters .success-story-list-component:lt(3)").show();
+         } else {
+ 
+             //console.log("Only 'show all' is active everywhere.");
+             $(".filters-active-hide").show();
+ 
+         }
+     });*/
 
 
 
