@@ -22,8 +22,10 @@ import { formatsweprotect } from './ad-engines.js/formats-we-protect.js';
 import { circleSentences } from './animations/circle-sentences.js';
 import { textMarquee } from './animations/text-marquee.js';
 import { filters } from './filters/filters.js';
+import { phoneDDI } from './phone-number-select/phone-number-ddi.js';
 
 filters();
+phoneDDI();
 
 gsapTitles();
 didYouKnow();
