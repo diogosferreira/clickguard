@@ -15,7 +15,7 @@ export function gsapTitles() {
     });
 
 
-    console.log("text diogo");
+    //console.log("text diogo");
 
     const textLetterElements = document.querySelectorAll("[data-text-letter='true']");
 

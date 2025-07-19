@@ -24,32 +24,76 @@ import { textMarquee } from './animations/text-marquee.js';
 import { filters } from './filters/filters.js';
 import { phoneDDI } from './phone-number-select/phone-number-ddi.js';
 
-filters();
-phoneDDI();
-
-gsapTitles();
-didYouKnow();
-featuresImages();
-gsapScrollAnimations();
-
-initAnimations();
-stackingCards();
-homeMarquee();
-marqueeSpeed();
-homeTabs();
-googleBackground();
-integrationsMarquee();
-swiperTestimonials();
-swiperSolves();
-menu();
-copyright();
-pricing();
-expandableCards();
-expandableCardsOverflow();
-expandableCardsPopUp();
 
 
-formatsweprotect();
-circleSentences();
-textMarquee();
-whyMarquee();
+function initAll() {
+
+    // Wait until Webflow finishes its initialization
+    /*Webflow && Webflow.destroy(); // optional reset
+    Webflow && Webflow.ready && Webflow.ready();
+
+    Webflow && Webflow.require("ix2").init(); // Reinit interactions if needed
+
+    requestAnimationFrame(() => {
+    
+    */
+    filters();
+    phoneDDI();
+
+    gsapTitles();
+    didYouKnow();
+    featuresImages();
+    gsapScrollAnimations();
+
+    initAnimations();
+    stackingCards();
+    homeMarquee();
+    marqueeSpeed();
+    homeTabs();
+    googleBackground();
+    integrationsMarquee();
+    swiperTestimonials();
+    swiperSolves();
+    menu();
+    copyright();
+    pricing();
+    expandableCards();
+    expandableCardsOverflow();
+    expandableCardsPopUp();
+
+
+    formatsweprotect();
+    circleSentences();
+    textMarquee();
+    whyMarquee();
+
+    /*}, 50); // small delay ensures DOM is rendered*/
+
+
+}
+
+// First page load
+initAll();
+
+
+/*
+
+barba.init({
+    transitions: [{
+        name: 'default-transition',
+        leave({ current }) {
+            return gsap.to(current.container, { opacity: 0, duration: 0.1 });
+        },
+        enter({ next }) {
+            window.scrollTo(0, 0);
+            gsap.fromTo(next.container, { opacity: 0 }, { opacity: 1, duration: 0.1 });
+        },
+    }],
+});
+
+barba.hooks.afterEnter(() => {
+    window.scrollTo(0, 0);
+    initAll();
+});
+
+*/
