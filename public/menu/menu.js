@@ -66,11 +66,13 @@ export function menu() {
         const tl = gsap.timeline({ paused: true });
 
         // Animation for wrapper
-        tl.fromTo(
-            $wrapper[0],
-            { clipPath: "inset(0% 0% 100% 0% round 8px)" },
-            { clipPath: "inset(0% 0% 0% 0% round 8px)", ease: "power2.inOut", duration: 0.7 }
-        );
+        if ($(window).width() > 991) {
+            tl.fromTo(
+                $wrapper[0],
+                { clipPath: "inset(0% 0% 100% 0% round 8px)" },
+                { clipPath: "inset(0% 0% 0% 0% round 8px)", ease: "power2.inOut", duration: 0.7 }
+            );
+        }
 
         // Animation for image with small delay
         tl.fromTo(
