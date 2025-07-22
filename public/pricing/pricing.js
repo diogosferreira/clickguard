@@ -6,41 +6,12 @@ export function pricing() {
     // CUSTOM TIERS SELECT
     // ————————————————————————————————————————————————————————
     // ————————————————————————————————————————————————————————
+    $(".pricing-tier_border").on("click", function () {
+        $(".pricing-tier_border").removeClass("is-active");
 
-    $(".price-tier-radio").on("click", function () {
-        const $this = $(this);
-        const isAlreadyActive = $this.hasClass("is-active");
 
-        // Step 1: Toggle is-active
-        $(".price-tier-radio").removeClass("is-active");
+        $(this).addClass("is-active");
 
-        // Step 2: Get all pricing tiers (first 4 only)
-        const $tiers = $(".pricing-swiper_wrapper .pricing-tier_border").slice(0, 4);
-
-        if (isAlreadyActive) {
-            // If already active, deactivate and enable all tiers
-            $tiers.removeClass("is-disabled");
-            return;
-        }
-
-        // Activate clicked tier
-        $this.addClass("is-active");
-
-        // Step 3: Parse tiers to disable
-        const selectedTiers = $this
-            .attr("data-tier")
-            .split(",")
-            .map(t => parseInt(t.trim()));
-
-        // Step 4: Disable matching tiers
-        $tiers.each(function (index) {
-            const currentIndex = index + 1;
-            if (selectedTiers.includes(currentIndex)) {
-                $(this).addClass("is-disabled");
-            } else {
-                $(this).removeClass("is-disabled");
-            }
-        });
     });
 
     // MONTH — YEAR DROPDOWN
@@ -77,6 +48,91 @@ export function pricing() {
          $dropdown.find(".currency-dropdown-link.is-active").removeClass("is-active").show();
          $clicked.addClass("is-active").hide();
      });*/
+
+    $(document).ready(function () {
+        const $dropdown = $(".currency-dropdown");
+        const $toggle = $dropdown.find(".currency-dropdown-toggle");
+        const $dropdownList = $dropdown.find(".currency-dropdown-list");
+        const $arrow = $dropdown.find(".currency-drop-arrow");
+        const $toggleIcon = $toggle.find(".currency-icon");
+
+        function updatePrices(currencyLink) {
+            const $link = $(currencyLink);
+            const standardMonthly = $link.attr("data-standard-monthly");
+            const standardYearly = $link.attr("data-standard-yearly");
+            const proMonthly = $link.attr("data-pro-monthly");
+            const proYearly = $link.attr("data-pro-yearly");
+
+            const isMonthly = $(".month-radio.is-active").attr("data-month-year") === "month";
+
+            const standardPrice = isMonthly ? standardMonthly : standardYearly;
+            const proPrice = isMonthly ? proMonthly : proYearly;
+            const monthYearText = isMonthly ? "Per month" : "Per year";
+
+            $("[data-price-value='Standard']").text(standardPrice);
+            $("[data-price-value='Pro']").text(proPrice);
+            $("[data-month-year='text']").text(monthYearText);
+        }
+
+        $toggle.on("click", function (e) {
+            e.stopPropagation();
+            $dropdownList.toggleClass("is-open").css("display", function (_, val) {
+                return val === "block" ? "none" : "block";
+            });
+            $arrow.toggleClass("is-active");
+        });
+
+        $dropdown.on("click", ".currency-dropdown-link", function (e) {
+            e.stopPropagation();
+            const $clicked = $(this);
+
+            $(".currency-dropdown-link").removeClass("is-active");
+            $clicked.addClass("is-active");
+
+            // ✅ Update icon image src and text
+            const newIconSrc = $clicked.find(".currency-icon").attr("src");
+            $toggleIcon.attr("src", newIconSrc);
+
+            const newText = $clicked.find("[data-currency-name]").text().trim();
+            $toggle.find("[data-currency-name-template]").text(newText);
+
+            updatePrices($clicked);
+
+            // Close dropdown
+            $dropdownList.removeClass("is-open").hide();
+            $arrow.removeClass("is-active");
+        });
+
+        $(".month-radio").on("click", function () {
+            $(".month-radio").removeClass("is-active");
+            $(this).addClass("is-active");
+
+            const activeCurrency = $(".currency-dropdown-link.is-active");
+            if (activeCurrency.length) updatePrices(activeCurrency);
+        });
+
+        $(document).on("click", function () {
+            $dropdownList.removeClass("is-open").hide();
+            $arrow.removeClass("is-active");
+        });
+
+        // Initial prices on load
+        const $firstCurrency = $(".currency-dropdown-link").first();
+        if ($firstCurrency.length) {
+            $firstCurrency.addClass("is-active");
+
+            const iconSrc = $firstCurrency.find(".currency-icon").attr("src");
+            $toggleIcon.attr("src", iconSrc);
+
+            const currencyText = $firstCurrency.find("[data-currency-name]").text().trim();
+            $toggle.find("[data-currency-name-template]").text(currencyText);
+
+            updatePrices($firstCurrency);
+        }
+    });
+
+
+    //
 
 
     // TOP CARDS ANIMATION
