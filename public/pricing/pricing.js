@@ -60,23 +60,23 @@ export function pricing() {
     // CURRENCY DROPDOWN
     // ————————————————————————————————————————————————————————
     // ————————————————————————————————————————————————————————
-    $(".currency-dropdown-link").on("click", function () {
-        const $clicked = $(this);
-        const $dropdown = $clicked.closest(".w-dropdown");
-        const $toggle = $dropdown.find(".w-dropdown-toggle");
-        const $list = $dropdown.find(".w-dropdown-list");
-
-        // Update toggle content (icon + text)
-        const iconHTML = $clicked.find(".currency-icon").html();
-        const labelText = $clicked.find("div").not(".currency-icon").text().trim();
-
-        $toggle.find(".currency-icon").html(iconHTML);
-        $toggle.find("div").not(".currency-icon, .currency-drop-arrow").text(labelText);
-
-        // Swap is-active class
-        $dropdown.find(".currency-dropdown-link.is-active").removeClass("is-active").show();
-        $clicked.addClass("is-active").hide();
-    });
+    /*$(".currency-dropdown-link").on("click", function () {
+         const $clicked = $(this);
+         const $dropdown = $clicked.closest(".w-dropdown");
+         const $toggle = $dropdown.find(".w-dropdown-toggle");
+         const $list = $dropdown.find(".w-dropdown-list");
+ 
+         // Update toggle content (icon + text)
+         const iconHTML = $clicked.find(".currency-icon").html();
+         const labelText = $clicked.find("div").not(".currency-icon").text().trim();
+ 
+         $toggle.find(".currency-icon").html(iconHTML);
+         $toggle.find("div").not(".currency-icon, .currency-drop-arrow").text(labelText);
+ 
+         // Swap is-active class
+         $dropdown.find(".currency-dropdown-link.is-active").removeClass("is-active").show();
+         $clicked.addClass("is-active").hide();
+     });*/
 
 
     // TOP CARDS ANIMATION
