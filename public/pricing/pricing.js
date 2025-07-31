@@ -6,12 +6,20 @@ export function pricing() {
     // CUSTOM TIERS SELECT
     // ————————————————————————————————————————————————————————
     // ————————————————————————————————————————————————————————
-    $(".pricing-tier_border").on("click", function () {
-        $(".pricing-tier_border").removeClass("is-active");
+    $(".price-tier-radio").on("click", function () {
+        const $this = $(this);
+        const tierIndex = parseInt($this.attr("data-tier").trim());
 
+        // Reset active states
+        $(".price-tier-radio").removeClass("is-active");
+        $(".tier-border-active").removeClass("is-active");
 
-        $(this).addClass("is-active");
+        // Activate selected radio
+        $this.addClass("is-active");
 
+        // Activate the corresponding pricing tier
+        const $tier = $(".pricing-swiper_wrapper .pricing-tier_border").eq(tierIndex - 1);
+        $tier.find(".tier-border-active").addClass("is-active");
     });
 
     // MONTH — YEAR DROPDOWN
@@ -31,23 +39,6 @@ export function pricing() {
     // CURRENCY DROPDOWN
     // ————————————————————————————————————————————————————————
     // ————————————————————————————————————————————————————————
-    /*$(".currency-dropdown-link").on("click", function () {
-         const $clicked = $(this);
-         const $dropdown = $clicked.closest(".w-dropdown");
-         const $toggle = $dropdown.find(".w-dropdown-toggle");
-         const $list = $dropdown.find(".w-dropdown-list");
- 
-         // Update toggle content (icon + text)
-         const iconHTML = $clicked.find(".currency-icon").html();
-         const labelText = $clicked.find("div").not(".currency-icon").text().trim();
- 
-         $toggle.find(".currency-icon").html(iconHTML);
-         $toggle.find("div").not(".currency-icon, .currency-drop-arrow").text(labelText);
- 
-         // Swap is-active class
-         $dropdown.find(".currency-dropdown-link.is-active").removeClass("is-active").show();
-         $clicked.addClass("is-active").hide();
-     });*/
 
     $(document).ready(function () {
         const $dropdown = $(".currency-dropdown");
@@ -56,30 +47,41 @@ export function pricing() {
         const $arrow = $dropdown.find(".currency-drop-arrow");
         const $toggleIcon = $toggle.find(".currency-icon");
 
-        function updatePrices(currencyLink) {
-            const $link = $(currencyLink);
+        function updatePrices($link) {
             const standardMonthly = $link.attr("data-standard-monthly");
             const standardYearly = $link.attr("data-standard-yearly");
             const proMonthly = $link.attr("data-pro-monthly");
             const proYearly = $link.attr("data-pro-yearly");
-
             const isMonthly = $(".month-radio.is-active").attr("data-month-year") === "month";
 
-            const standardPrice = isMonthly ? standardMonthly : standardYearly;
-            const proPrice = isMonthly ? proMonthly : proYearly;
-            const monthYearText = isMonthly ? "Per month" : "Per year";
-
-            $("[data-price-value='Standard']").text(standardPrice);
-            $("[data-price-value='Pro']").text(proPrice);
-            $("[data-month-year='text']").text(monthYearText);
+            $("[data-price-value='Standard']").text(isMonthly ? standardMonthly : standardYearly);
+            $("[data-price-value='Pro']").text(isMonthly ? proMonthly : proYearly);
+            $("[data-month-year='text']").text(isMonthly ? "Per month" : "Per year");
         }
 
         $toggle.on("click", function (e) {
             e.stopPropagation();
-            $dropdownList.toggleClass("is-open").css("display", function (_, val) {
-                return val === "block" ? "none" : "block";
-            });
-            $arrow.toggleClass("is-active");
+            const $thisDropdown = $(this).closest(".currency-dropdown");
+            const $thisDropdownList = $thisDropdown.find(".currency-dropdown-list");
+            const $thisArrow = $(this).find(".currency-drop-arrow");
+
+            const isOpen = $thisDropdownList.hasClass("is-active");
+
+            // Close all dropdowns before toggling (optional)
+            $(".currency-dropdown-list").removeClass("is-active");
+            $(".currency-drop-arrow").removeClass("is-active");
+
+            if (!isOpen) {
+                $thisDropdownList.addClass("is-active");
+                $thisArrow.addClass("is-active");
+            } else {
+
+                console.log("remove");
+                $thisArrow.removeClass("is-active");
+
+                $(".currency-dropdown-list").removeClass("is-active");
+                $(".currency-dropdown-list").removeClass("is-open");
+            }
         });
 
         $dropdown.on("click", ".currency-dropdown-link", function (e) {
@@ -89,47 +91,35 @@ export function pricing() {
             $(".currency-dropdown-link").removeClass("is-active");
             $clicked.addClass("is-active");
 
-            // ✅ Update icon image src and text
-            const newIconSrc = $clicked.find(".currency-icon").attr("src");
-            $toggleIcon.attr("src", newIconSrc);
-
-            const newText = $clicked.find("[data-currency-name]").text().trim();
-            $toggle.find("[data-currency-name-template]").text(newText);
+            $toggleIcon.attr("src", $clicked.find(".currency-icon").attr("src"));
+            $toggle.find("[data-currency-name-template]").text($clicked.find("[data-currency-name]").text().trim());
 
             updatePrices($clicked);
-
-            // Close dropdown
-            $dropdownList.removeClass("is-open").hide();
+            $dropdownList.removeClass("is-active");
             $arrow.removeClass("is-active");
         });
 
         $(".month-radio").on("click", function () {
             $(".month-radio").removeClass("is-active");
             $(this).addClass("is-active");
-
-            const activeCurrency = $(".currency-dropdown-link.is-active");
-            if (activeCurrency.length) updatePrices(activeCurrency);
+            updatePrices($(".currency-dropdown-link.is-active"));
         });
 
-        $(document).on("click", function () {
-            $dropdownList.removeClass("is-open").hide();
-            $arrow.removeClass("is-active");
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest(".currency-dropdown").length) {
+                $dropdownList.removeClass("is-active");
+                $arrow.removeClass("is-active");
+            }
         });
 
-        // Initial prices on load
-        const $firstCurrency = $(".currency-dropdown-link").first();
-        if ($firstCurrency.length) {
-            $firstCurrency.addClass("is-active");
-
-            const iconSrc = $firstCurrency.find(".currency-icon").attr("src");
-            $toggleIcon.attr("src", iconSrc);
-
-            const currencyText = $firstCurrency.find("[data-currency-name]").text().trim();
-            $toggle.find("[data-currency-name-template]").text(currencyText);
-
-            updatePrices($firstCurrency);
+        const $initial = $(".currency-dropdown-link.is-active").first();
+        if ($initial.length) {
+            $toggleIcon.attr("src", $initial.find(".currency-icon").attr("src"));
+            $toggle.find("[data-currency-name-template]").text($initial.find("[data-currency-name]").text().trim());
+            updatePrices($initial);
         }
     });
+
 
 
     //

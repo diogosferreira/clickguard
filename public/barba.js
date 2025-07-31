@@ -23,6 +23,8 @@ import { circleSentences } from './animations/circle-sentences.js';
 import { textMarquee } from './animations/text-marquee.js';
 import { filters } from './filters/filters.js';
 import { phoneDDI } from './phone-number-select/phone-number-ddi.js';
+import { indexDropdown } from './index-dropdown/index-dropdown.js';
+import { glossary } from './glossary/glossary.js';
 
 
 
@@ -38,6 +40,8 @@ function initAll() {
     
     */
     filters();
+    indexDropdown();
+    glossary();
     phoneDDI();
 
     gsapTitles();
