@@ -45,6 +45,7 @@ export function glossary() {
             $(".glossary-filters_wrapper a.filter-button").removeClass("is-active");
             $(this).addClass("is-active");
         });
+
     });
 
 }

@@ -12,6 +12,7 @@ import { homeTabs } from './tabs/home-tabs.js';
 import { googleBackground } from './animations/google-background.js';
 import { swiperTestimonials } from './swiper/swiper-testimonials.js';
 import { swiperSolves } from './swiper/solves.js';
+import { swiperCarousselTestimonials } from './swiper/carrousel-testimonials.js';
 import { menu } from './menu/menu.js';
 import { copyright } from './copyright/copyright.js';
 import { pricing } from './pricing/pricing.js';
@@ -25,6 +26,7 @@ import { filters } from './filters/filters.js';
 import { phoneDDI } from './phone-number-select/phone-number-ddi.js';
 import { indexDropdown } from './index-dropdown/index-dropdown.js';
 import { glossary } from './glossary/glossary.js';
+import { glossaryIndex } from './glossary/glossary-index.js';
 
 
 
@@ -40,8 +42,10 @@ function initAll() {
     
     */
     filters();
+    swiperCarousselTestimonials();
     indexDropdown();
     glossary();
+    glossaryIndex();
     phoneDDI();
 
     gsapTitles();
