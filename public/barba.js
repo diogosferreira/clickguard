@@ -27,6 +27,7 @@ import { phoneDDI } from './phone-number-select/phone-number-ddi.js';
 import { indexDropdown } from './index-dropdown/index-dropdown.js';
 import { glossary } from './glossary/glossary.js';
 import { glossaryIndex } from './glossary/glossary-index.js';
+import { faqSchema } from './faqs/faq-schema.js';
 
 
 
@@ -41,6 +42,7 @@ function initAll() {
     requestAnimationFrame(() => {
     
     */
+    faqSchema();
     filters();
     swiperCarousselTestimonials();
     indexDropdown();
