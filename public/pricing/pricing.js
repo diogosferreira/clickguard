@@ -2,7 +2,7 @@ export function pricing() {
     const element = document.querySelector(".pricing-tiers-group");
     if (!element) return;
 
-    console.log("now");
+    console.log("diogo");
 
     // CUSTOM TIERS SELECT
     // ————————————————————————————————————————————————————————
@@ -38,39 +38,105 @@ export function pricing() {
     });
 
 
-    // CAPTURE-PHASE DROPDOWN TOGGLE (beats Webflow/other handlers)
-    document.addEventListener('click', function (e) {
-        const toggle = e.target.closest('.currency-dropdown-toggle');
-        const dropdown = e.target.closest('.currency-dropdown');
 
-        // Click on the toggle → open/close this dropdown
-        if (toggle) {
-            e.preventDefault();
-            const wrap = toggle.closest('.currency-dropdown');
-            const list = wrap.querySelector('.currency-dropdown-list');
-            const arrow = toggle.querySelector('.currency-drop-arrow');
-            const wasOpen = list.classList.contains('is-open') || list.classList.contains('is-active');
+    $(function () {
+        const $dropdown = $(".currency-dropdown");
+        const $toggle = $dropdown.find(".currency-dropdown-toggle");
+        const $toggleIcon = $toggle.find(".currency-icon");
 
-            // close all first
-            document.querySelectorAll('.currency-dropdown-list').forEach(l => l.classList.remove('is-open', 'is-active'));
-            document.querySelectorAll('.currency-drop-arrow').forEach(a => a.classList.remove('is-active'));
+        function updatePrices($link) {
+            const standardMonthly = $link.attr("data-standard-monthly");
+            const standardYearly = $link.attr("data-standard-yearly");
+            const proMonthly = $link.attr("data-pro-monthly");
+            const proYearly = $link.attr("data-pro-yearly");
+            const isMonthly = $(".month-radio.is-active").attr("data-month-year") === "month";
 
-            // then open this one if it was closed
-            if (!wasOpen) {
-                list.classList.add('is-open', 'is-active');
-                arrow && arrow.classList.add('is-active');
+            $("[data-price-value='Standard']").text(isMonthly ? standardMonthly : standardYearly);
+            $("[data-price-value='Pro']").text(isMonthly ? proMonthly : proYearly);
+            $("[data-month-year='text']").text(isMonthly ? "Per month" : "Per year");
+        }
+
+        function syncToggleFrom($link) {
+            $toggleIcon.attr("src", $link.find(".currency-icon").attr("src"));
+            $toggle.find("[data-currency-name-template]").text(
+                $link.find("[data-currency-name]").text().trim()
+            );
+        }
+
+        // 1) Currency init
+        let $initial = $dropdown.find(".currency-dropdown-link.is-active").first();
+        if (!$initial.length) {
+            $initial = $dropdown.find(".currency-dropdown-link").first().addClass("is-active");
+        }
+        syncToggleFrom($initial);
+        updatePrices($initial);
+
+        // 2) Tier border init
+        const initialTierIndex = parseInt($(".price-tier-radio.is-active").attr("data-tier"), 10) || 1;
+        $(".pricing-swiper_wrapper .pricing-tier_border")
+            .eq(initialTierIndex - 1)
+            .find(".tier-border-active")
+            .addClass("is-active");
+
+        // 3) Month toggle
+        $(".month-radio").off("click").on("click", function () {
+            $(".month-radio").removeClass("is-active");
+            $(this).addClass("is-active");
+            updatePrices($(".currency-dropdown-link.is-active"));
+        });
+
+        // 4) Currency option click
+        $dropdown.on("click", ".currency-dropdown-link", function (e) {
+            // (don’t stop propagation — not needed)
+            const $clicked = $(this);
+            $(".currency-dropdown-link").removeClass("is-active");
+            $clicked.addClass("is-active");
+
+            syncToggleFrom($clicked);
+            updatePrices($clicked);
+
+            $(".currency-dropdown-list, .currency-drop-arrow").removeClass("is-active is-open");
+        });
+
+        // 5) Close on outside click (bubble)
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest(".currency-dropdown").length) {
+                $(".currency-dropdown-list, .currency-drop-arrow").removeClass("is-active is-open");
             }
-            return; // stop here so outside-click logic below doesn't immediately close it
-        }
+        });
 
-        // Clicked outside any dropdown → close all
-        if (!dropdown) {
-            document.querySelectorAll('.currency-dropdown-list').forEach(l => l.classList.remove('is-open', 'is-active'));
-            document.querySelectorAll('.currency-drop-arrow').forEach(a => a.classList.remove('is-active'));
-        }
-    }, true); // <-- CAPTURE!
+        // 6) OPEN/CLOSE via capture-phase so clicks can’t be blocked by overlays
+        document.addEventListener('click', function (e) {
+            const toggle = e.target.closest('.currency-dropdown-toggle');
+            const insideDropdown = e.target.closest('.currency-dropdown');
 
+            if (toggle) {
+                e.preventDefault(); // keep it simple; no stopPropagation
 
+                const $wrap = $(toggle).closest('.currency-dropdown');
+                const $list = $wrap.find('.currency-dropdown-list');
+                const $arrow = $(toggle).find('.currency-drop-arrow');
+                const wasOpen = $list.hasClass('is-active') || $list.hasClass('is-open');
+
+                // Close all menus first
+                $('.currency-dropdown-list').removeClass('is-active is-open');
+                $('.currency-drop-arrow').removeClass('is-active');
+
+                // Open this one if it was closed
+                if (!wasOpen) {
+                    $list.addClass('is-active is-open');
+                    $arrow.addClass('is-active');
+                }
+                return; // done
+            }
+
+            // Click outside any dropdown during capture? Don't do anything here.
+            // (the bubble-phase $(document).on('click') above handles outside close)
+            if (!insideDropdown) {
+                // no-op here; bubble handler will close
+            }
+        }, true); // <- capture
+    });
 
 
     /*
