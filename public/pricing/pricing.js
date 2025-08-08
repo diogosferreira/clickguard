@@ -232,7 +232,7 @@ export function pricing() {
     // ————————————————————————————————————————————————————————
     if ($(window).width() < 991) {
         var swiper_base = new Swiper(".swiper-pricing", {
-            slidesPerView: 1.5,
+            slidesPerView: 1.2,
             speed: 700,
             spaceBetween: 16,
             navigation: {
