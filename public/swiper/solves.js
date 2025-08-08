@@ -30,10 +30,27 @@ export function swiperSolves() {
     });
 
 
+    /*
     swiper.on('slideChange', function () {
         const bullets = document.querySelectorAll('.swiper-pagination-solves .swiper-pagination-bullet');
         bullets.forEach(b => b.classList.remove('swiper-pagination-bullet-active'));
         bullets[this.activeIndex].classList.add('swiper-pagination-bullet-active');
+    });*/
+
+
+    swiper.on('slideChangeTransitionEnd', function () {
+        // Remove blur/scale de todos
+        document.querySelectorAll('.swiper-how-solves .swiper-slide').forEach(slide => {
+            slide.style.filter = 'blur(2px)';
+            slide.style.transform = 'scale(0.9)';
+        });
+
+        // Aplica no ativo
+        const activeSlide = document.querySelector('.swiper-how-solves .swiper-slide-active');
+        if (activeSlide) {
+            activeSlide.style.filter = 'none';
+            activeSlide.style.transform = 'scale(1)';
+        }
     });
 
 
