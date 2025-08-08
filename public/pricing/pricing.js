@@ -60,6 +60,7 @@ export function pricing() {
         }
 
         $toggle.on("click", function (e) {
+            console.log("click");
             e.stopPropagation();
             const $thisDropdown = $(this).closest(".currency-dropdown");
             const $thisDropdownList = $thisDropdown.find(".currency-dropdown-list");
