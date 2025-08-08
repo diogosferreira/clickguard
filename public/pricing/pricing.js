@@ -2,7 +2,7 @@ export function pricing() {
     const element = document.querySelector(".pricing-tiers-group");
     if (!element) return;
 
-    console.log("new");
+    console.log("now");
 
     // CUSTOM TIERS SELECT
     // ————————————————————————————————————————————————————————
@@ -37,85 +37,40 @@ export function pricing() {
         $("[data-month-year='text']").text(text);
     });
 
-    $(function () {
-        const $dropdown = $(".currency-dropdown");
-        const $toggle = $dropdown.find(".currency-dropdown-toggle");
-        const $toggleIcon = $toggle.find(".currency-icon");
 
-        function updatePrices($link) {
-            const standardMonthly = $link.attr("data-standard-monthly");
-            const standardYearly = $link.attr("data-standard-yearly");
-            const proMonthly = $link.attr("data-pro-monthly");
-            const proYearly = $link.attr("data-pro-yearly");
-            const isMonthly = $(".month-radio.is-active").attr("data-month-year") === "month";
+    // CAPTURE-PHASE DROPDOWN TOGGLE (beats Webflow/other handlers)
+    document.addEventListener('click', function (e) {
+        const toggle = e.target.closest('.currency-dropdown-toggle');
+        const dropdown = e.target.closest('.currency-dropdown');
 
-            $("[data-price-value='Standard']").text(isMonthly ? standardMonthly : standardYearly);
-            $("[data-price-value='Pro']").text(isMonthly ? proMonthly : proYearly);
-            $("[data-month-year='text']").text(isMonthly ? "Per month" : "Per year");
-        }
+        // Click on the toggle → open/close this dropdown
+        if (toggle) {
+            e.preventDefault();
+            const wrap = toggle.closest('.currency-dropdown');
+            const list = wrap.querySelector('.currency-dropdown-list');
+            const arrow = toggle.querySelector('.currency-drop-arrow');
+            const wasOpen = list.classList.contains('is-open') || list.classList.contains('is-active');
 
-        function syncToggleFrom($link) {
-            $toggleIcon.attr("src", $link.find(".currency-icon").attr("src"));
-            $toggle.find("[data-currency-name-template]").text(
-                $link.find("[data-currency-name]").text().trim()
-            );
-        }
+            // close all first
+            document.querySelectorAll('.currency-dropdown-list').forEach(l => l.classList.remove('is-open', 'is-active'));
+            document.querySelectorAll('.currency-drop-arrow').forEach(a => a.classList.remove('is-active'));
 
-        // 1) Currency init
-        let $initial = $dropdown.find(".currency-dropdown-link.is-active").first();
-        if (!$initial.length) {
-            $initial = $dropdown.find(".currency-dropdown-link").first().addClass("is-active");
-        }
-        syncToggleFrom($initial);
-        updatePrices($initial);
-
-        // 2) Tier border init
-        const initialTierIndex = parseInt($(".price-tier-radio.is-active").attr("data-tier"), 10) || 1;
-        $(".pricing-swiper_wrapper .pricing-tier_border")
-            .eq(initialTierIndex - 1)
-            .find(".tier-border-active")
-            .addClass("is-active");
-
-        // 3) Single month toggle handler (remove the other one)
-        $(".month-radio").off("click").on("click", function () {
-            $(".month-radio").removeClass("is-active");
-            $(this).addClass("is-active");
-            updatePrices($(".currency-dropdown-link.is-active"));
-        });
-
-        // Optional: keep your cleaned dropdown toggle handler (no else needed)
-        $(".currency-dropdown-toggle").on("click", function (e) {
-            e.stopPropagation();
-            const $thisDropdown = $(this).closest(".currency-dropdown");
-            const $thisDropdownList = $thisDropdown.find(".currency-dropdown-list");
-            const $thisArrow = $(this).find(".currency-drop-arrow");
-            const wasOpen = $thisDropdownList.hasClass("is-active");
-
-            $(".currency-dropdown-list").removeClass("is-active");
-            $(".currency-drop-arrow").removeClass("is-active");
-
+            // then open this one if it was closed
             if (!wasOpen) {
-                $thisDropdownList.addClass("is-active");
-                $thisArrow.addClass("is-active");
+                list.classList.add('is-open', 'is-active');
+                arrow && arrow.classList.add('is-active');
             }
-        });
+            return; // stop here so outside-click logic below doesn't immediately close it
+        }
 
-        $dropdown.on("click", ".currency-dropdown-link", function (e) {
-            e.stopPropagation();
-            const $clicked = $(this);
-            $(".currency-dropdown-link").removeClass("is-active");
-            $clicked.addClass("is-active");
-            syncToggleFrom($clicked);
-            updatePrices($clicked);
-            $(".currency-dropdown-list, .currency-drop-arrow").removeClass("is-active");
-        });
+        // Clicked outside any dropdown → close all
+        if (!dropdown) {
+            document.querySelectorAll('.currency-dropdown-list').forEach(l => l.classList.remove('is-open', 'is-active'));
+            document.querySelectorAll('.currency-drop-arrow').forEach(a => a.classList.remove('is-active'));
+        }
+    }, true); // <-- CAPTURE!
 
-        $(document).on("click", function (e) {
-            if (!$(e.target).closest(".currency-dropdown").length) {
-                $(".currency-dropdown-list, .currency-drop-arrow").removeClass("is-active");
-            }
-        });
-    });
+
 
 
     /*
