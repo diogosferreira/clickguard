@@ -2,7 +2,123 @@ export function pricing() {
     const element = document.querySelector(".pricing-tiers-group");
     if (!element) return;
 
+    console.log("new");
 
+    // CUSTOM TIERS SELECT
+    // ————————————————————————————————————————————————————————
+    // ————————————————————————————————————————————————————————
+    $(".price-tier-radio").on("click", function () {
+        const $this = $(this);
+        const tierIndex = parseInt($this.attr("data-tier").trim());
+
+        // Reset active states
+        $(".price-tier-radio").removeClass("is-active");
+        $(".tier-border-active").removeClass("is-active");
+
+        // Activate selected radio
+        $this.addClass("is-active");
+
+        // Activate the corresponding pricing tier
+        const $tier = $(".pricing-swiper_wrapper .pricing-tier_border").eq(tierIndex - 1);
+        $tier.find(".tier-border-active").addClass("is-active");
+    });
+
+    // MONTH — YEAR DROPDOWN
+    // ————————————————————————————————————————————————————————
+    // ————————————————————————————————————————————————————————
+
+    $(".month-radio").on("click", function () {
+        $(".month-radio").removeClass("is-active");
+        $(this).addClass("is-active");
+
+        const type = $(this).attr("data-month-year");
+        const text = type === "year" ? "Per year" : "Per month";
+
+        $("[data-month-year='text']").text(text);
+    });
+
+    $(function () {
+        const $dropdown = $(".currency-dropdown");
+        const $toggle = $dropdown.find(".currency-dropdown-toggle");
+        const $toggleIcon = $toggle.find(".currency-icon");
+
+        function updatePrices($link) {
+            const standardMonthly = $link.attr("data-standard-monthly");
+            const standardYearly = $link.attr("data-standard-yearly");
+            const proMonthly = $link.attr("data-pro-monthly");
+            const proYearly = $link.attr("data-pro-yearly");
+            const isMonthly = $(".month-radio.is-active").attr("data-month-year") === "month";
+
+            $("[data-price-value='Standard']").text(isMonthly ? standardMonthly : standardYearly);
+            $("[data-price-value='Pro']").text(isMonthly ? proMonthly : proYearly);
+            $("[data-month-year='text']").text(isMonthly ? "Per month" : "Per year");
+        }
+
+        function syncToggleFrom($link) {
+            $toggleIcon.attr("src", $link.find(".currency-icon").attr("src"));
+            $toggle.find("[data-currency-name-template]").text(
+                $link.find("[data-currency-name]").text().trim()
+            );
+        }
+
+        // 1) Currency init
+        let $initial = $dropdown.find(".currency-dropdown-link.is-active").first();
+        if (!$initial.length) {
+            $initial = $dropdown.find(".currency-dropdown-link").first().addClass("is-active");
+        }
+        syncToggleFrom($initial);
+        updatePrices($initial);
+
+        // 2) Tier border init
+        const initialTierIndex = parseInt($(".price-tier-radio.is-active").attr("data-tier"), 10) || 1;
+        $(".pricing-swiper_wrapper .pricing-tier_border")
+            .eq(initialTierIndex - 1)
+            .find(".tier-border-active")
+            .addClass("is-active");
+
+        // 3) Single month toggle handler (remove the other one)
+        $(".month-radio").off("click").on("click", function () {
+            $(".month-radio").removeClass("is-active");
+            $(this).addClass("is-active");
+            updatePrices($(".currency-dropdown-link.is-active"));
+        });
+
+        // Optional: keep your cleaned dropdown toggle handler (no else needed)
+        $(".currency-dropdown-toggle").on("click", function (e) {
+            e.stopPropagation();
+            const $thisDropdown = $(this).closest(".currency-dropdown");
+            const $thisDropdownList = $thisDropdown.find(".currency-dropdown-list");
+            const $thisArrow = $(this).find(".currency-drop-arrow");
+            const wasOpen = $thisDropdownList.hasClass("is-active");
+
+            $(".currency-dropdown-list").removeClass("is-active");
+            $(".currency-drop-arrow").removeClass("is-active");
+
+            if (!wasOpen) {
+                $thisDropdownList.addClass("is-active");
+                $thisArrow.addClass("is-active");
+            }
+        });
+
+        $dropdown.on("click", ".currency-dropdown-link", function (e) {
+            e.stopPropagation();
+            const $clicked = $(this);
+            $(".currency-dropdown-link").removeClass("is-active");
+            $clicked.addClass("is-active");
+            syncToggleFrom($clicked);
+            updatePrices($clicked);
+            $(".currency-dropdown-list, .currency-drop-arrow").removeClass("is-active");
+        });
+
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest(".currency-dropdown").length) {
+                $(".currency-dropdown-list, .currency-drop-arrow").removeClass("is-active");
+            }
+        });
+    });
+
+
+    /*
     // CUSTOM TIERS SELECT
     // ————————————————————————————————————————————————————————
     // ————————————————————————————————————————————————————————
@@ -60,7 +176,7 @@ export function pricing() {
         }
 
 
-        /*
+
         $toggle.on("click", function (e) {
             console.log("click");
             e.stopPropagation();
@@ -85,27 +201,7 @@ export function pricing() {
                 $(".currency-dropdown-list").removeClass("is-active");
                 $(".currency-dropdown-list").removeClass("is-open");
             }
-        });*/
-
-        $toggle.on("click", function (e) {
-            e.stopPropagation();
-
-            const $thisDropdown = $(this).closest(".currency-dropdown");
-            const $thisDropdownList = $thisDropdown.find(".currency-dropdown-list");
-            const $thisArrow = $(this).find(".currency-drop-arrow");
-
-            const isOpen = $thisDropdownList.hasClass("is-active");
-
-            // Fecha todos
-            $(".currency-dropdown-list").removeClass("is-active");
-            $(".currency-drop-arrow").removeClass("is-active");
-
-            if (!isOpen) {
-                $thisDropdownList.addClass("is-active");
-                $thisArrow.addClass("is-active");
-            }
         });
-
 
 
 
@@ -145,7 +241,7 @@ export function pricing() {
         }
     });
 
-
+*/
 
     //
 
