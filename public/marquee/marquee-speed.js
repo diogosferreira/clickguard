@@ -71,7 +71,7 @@ export function marqueeSpeed() {
             requestAnimationFrame(() => {
                 setTimeout(() => {
                     const width = list.offsetWidth;
-                    console.log(`[Marquee ${index + 1}] 📏 Calculated width: ${width}px`);
+                    //console.log(`[Marquee ${index + 1}] 📏 Calculated width: ${width}px`);
 
                     if (width === 0) {
                         //console.warn(`[Marquee ${index + 1}] ❗ Content width is 0. Aborting.`);

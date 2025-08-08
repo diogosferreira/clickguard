@@ -30,7 +30,7 @@ $(document).ready(function () {
             url: "https://yourwordpressdomain.com/webflow-form.php",
             data: formData,
             success: function (response) {
-                console.log("Form successfully submitted to Brevo API", response);
+                //console.log("Form successfully submitted to Brevo API", response);
                 form[0].reset();
                 // Optional: redirect or show success message
             },
