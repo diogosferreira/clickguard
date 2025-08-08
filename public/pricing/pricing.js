@@ -2,7 +2,12 @@ export function pricing() {
     const element = document.querySelector(".pricing-tiers-group");
     if (!element) return;
 
-    console.log("diogo");
+
+
+
+    // PRICING DROPDOWNS - close all except the first one
+    $(".pricing-class-title_wrapper").slice(1).trigger("click");
+
 
     // CUSTOM TIERS SELECT
     // ————————————————————————————————————————————————————————
@@ -270,40 +275,42 @@ export function pricing() {
     // TOP CARDS ANIMATION
     // ————————————————————————————————————————————————————————
     // ————————————————————————————————————————————————————————
-    ScrollTrigger.create({
-        trigger: ".pricing-tiers-group",
-        start: "top top",
-        onEnter: () => {
+    if (window.innerWidth > 991) {
+        ScrollTrigger.create({
+            trigger: ".pricing-tiers-group",
+            start: "top top",
+            onEnter: () => {
 
-            $(".price-number").addClass("is-active");
-            $(".pricing-start_wrapper").addClass("is-active");
-            document.querySelectorAll("[data-pricing-collapse='true']").forEach((el) => {
-                gsap.fromTo(
-                    el,
-                    { height: el.scrollHeight + "px" },
-                    {
-                        height: "0rem",
+                $(".price-number").addClass("is-active");
+                $(".pricing-start_wrapper").addClass("is-active");
+                document.querySelectorAll("[data-pricing-collapse='true']").forEach((el) => {
+                    gsap.fromTo(
+                        el,
+                        { height: el.scrollHeight + "px" },
+                        {
+                            height: "0rem",
+                            duration: 0.5,
+                            ease: "power1.inOut",
+                        }
+                    );
+                });
+            },
+            onLeaveBack: () => {
+                $(".price-number").removeClass("is-active");
+                $(".pricing-start_wrapper").removeClass("is-active");
+                document.querySelectorAll("[data-pricing-collapse='true']").forEach((el) => {
+                    gsap.to(el, {
+                        height: el.scrollHeight + "px",
                         duration: 0.5,
                         ease: "power1.inOut",
-                    }
-                );
-            });
-        },
-        onLeaveBack: () => {
-            $(".price-number").removeClass("is-active");
-            $(".pricing-start_wrapper").removeClass("is-active");
-            document.querySelectorAll("[data-pricing-collapse='true']").forEach((el) => {
-                gsap.to(el, {
-                    height: el.scrollHeight + "px",
-                    duration: 0.5,
-                    ease: "power1.inOut",
-                    onComplete: () => {
-                        el.style.height = "auto";
-                    },
+                        onComplete: () => {
+                            el.style.height = "auto";
+                        },
+                    });
                 });
-            });
-        },
-    });
+            },
+        });
+    }
 
     // Calculator
     // ————————————————————————————————————————————————————————
