@@ -59,6 +59,8 @@ export function pricing() {
             $("[data-month-year='text']").text(isMonthly ? "Per month" : "Per year");
         }
 
+
+        /*
         $toggle.on("click", function (e) {
             console.log("click");
             e.stopPropagation();
@@ -83,7 +85,29 @@ export function pricing() {
                 $(".currency-dropdown-list").removeClass("is-active");
                 $(".currency-dropdown-list").removeClass("is-open");
             }
+        });*/
+
+        $toggle.on("click", function (e) {
+            e.stopPropagation();
+
+            const $thisDropdown = $(this).closest(".currency-dropdown");
+            const $thisDropdownList = $thisDropdown.find(".currency-dropdown-list");
+            const $thisArrow = $(this).find(".currency-drop-arrow");
+
+            const isOpen = $thisDropdownList.hasClass("is-active");
+
+            // Fecha todos
+            $(".currency-dropdown-list").removeClass("is-active");
+            $(".currency-drop-arrow").removeClass("is-active");
+
+            if (!isOpen) {
+                $thisDropdownList.addClass("is-active");
+                $thisArrow.addClass("is-active");
+            }
         });
+
+
+
 
         $dropdown.on("click", ".currency-dropdown-link", function (e) {
             e.stopPropagation();
