@@ -49,7 +49,7 @@ export function pricing() {
         const $toggle = $dropdown.find(".currency-dropdown-toggle");
         const $toggleIcon = $toggle.find(".currency-icon");
 
-        function updatePrices($link) {
+        /*function updatePrices($link) {
             const standardMonthly = $link.attr("data-standard-monthly");
             const standardYearly = $link.attr("data-standard-yearly");
             const proMonthly = $link.attr("data-pro-monthly");
@@ -58,6 +58,33 @@ export function pricing() {
 
             $("[data-price-value='Standard']").text(isMonthly ? standardMonthly : standardYearly);
             $("[data-price-value='Pro']").text(isMonthly ? proMonthly : proYearly);
+            $("[data-month-year='text']").text(isMonthly ? "Per month" : "Per year");
+        }*/
+
+
+        function updatePrices($link) {
+            const isMonthly = $(".month-radio.is-active").attr("data-month-year") === "month";
+
+            const liteMonthly = $link.attr("data-lite-monthly");
+            const liteYearly = $link.attr("data-lite-yearly");
+            const standardMonthly = $link.attr("data-standard-monthly");
+            const standardYearly = $link.attr("data-standard-yearly");
+            const proMonthly = $link.attr("data-pro-monthly");
+            const proYearly = $link.attr("data-pro-yearly");
+
+            // Lite (se existir no DOM)
+            const $lite = $("[data-price-value='Lite']");
+            if ($lite.length) {
+                $lite.text(isMonthly ? liteMonthly : liteYearly);
+            }
+
+            // Standard
+            $("[data-price-value='Standard']").text(isMonthly ? standardMonthly : standardYearly);
+
+            // Pro
+            $("[data-price-value='Pro']").text(isMonthly ? proMonthly : proYearly);
+
+            // Label Month/Year
             $("[data-month-year='text']").text(isMonthly ? "Per month" : "Per year");
         }
 
