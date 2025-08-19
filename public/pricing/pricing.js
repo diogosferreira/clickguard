@@ -431,4 +431,16 @@ export function pricing() {
     }
 
 
+
+    // SYNC SCROLL
+    // ————————————————————————————————————————————————————————
+    // ————————————————————————————————————————————————————————
+    $("[data-horizontal-scroll-sync='true']").on("scroll", function () {
+        const scrollLeft = $(this).scrollLeft();
+        $("[data-horizontal-scroll-sync='true']").not(this).each(function () {
+            $(this).scrollLeft(scrollLeft);
+        });
+    });
+
+
 }
