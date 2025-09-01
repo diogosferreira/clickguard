@@ -5,6 +5,8 @@ export function formValidation() {
 
     document.addEventListener('DOMContentLoaded', () => {
 
+        console.log("validate");
+
         const form = document.querySelector('form'); // update if needed
         const wrappers = document.querySelectorAll('.required_wrapper');
         let submitAttempted = false;
