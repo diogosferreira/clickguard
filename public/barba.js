@@ -30,6 +30,7 @@ import { glossaryIndex } from './glossary/glossary-index.js';
 import { faqSchema } from './faqs/faq-schema.js';
 import { calculator } from './free-demo/calculator.js';
 import { formValidation } from './form-validation/form-validation.js';
+import { formValidation } from './buttons/button-hover.js';
 
 
 
@@ -44,6 +45,7 @@ function initAll() {
     requestAnimationFrame(() => {
     
     */
+    buttonsHover();
     formValidation();
     calculator();
     faqSchema();
