@@ -18,8 +18,8 @@ export function featuresImages() {
 
     gsap.to(".feature-hero-image", {
         scrollTrigger: {
-            trigger: ".section_hero-features",
-            start: "top top",
+            trigger: ".features-hero-image_wrapper",
+            start: "top 20%",
             end: "bottom top",
             scrub: true
         },
