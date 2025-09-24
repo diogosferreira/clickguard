@@ -45,6 +45,7 @@ function initAll() {
     requestAnimationFrame(() => {
     
     */
+    exitIntentPopup();
     buttonsHover();
     formValidation();
     calculator();
