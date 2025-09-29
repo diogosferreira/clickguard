@@ -7,6 +7,29 @@ export function homeTabs() {
     // ——————————————————————————————
     // ——————————————————————————————
     if (window.matchMedia("(max-width: 991px)").matches) {
+
+        $(document).on("click", ".tab-button", function (e) {
+            const $btn = $(e.target).closest(".tab-button");
+            if (!$btn.length) return;
+
+            const offsetPx = 40; // 40px from top
+
+            const $anc = $btn.parents().filter(function () {
+                const s = getComputedStyle(this);
+                return /(auto|scroll)/.test(s.overflow + s.overflowY + s.overflowX);
+            }).first();
+
+            if ($anc.length) {
+                const target = $btn.offset().top - $anc.offset().top + $anc.scrollTop() - offsetPx;
+                $anc.scrollTop(target);
+            } else {
+                const target = $btn.offset().top - offsetPx;
+                window.scrollTo({ top: target, left: 0, behavior: "auto" });
+            }
+        });
+
+
+
         $(".tab-button").each(function () {
             const $button = $(this);
             const tabId = $button.attr("data-tab");
