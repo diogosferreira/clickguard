@@ -8,11 +8,14 @@ export function homeTabs() {
     // ——————————————————————————————
     if (window.matchMedia("(max-width: 991px)").matches) {
 
+        //anchor on click
+        //anchor on click
+        //anchor on click
         $(document).on("click", ".tab-button", function (e) {
             const $btn = $(e.target).closest(".tab-button");
             if (!$btn.length) return;
 
-            const offsetPx = 40; // 40px from top
+            const offsetPx = 70; // 40px from top
 
             const $anc = $btn.parents().filter(function () {
                 const s = getComputedStyle(this);
