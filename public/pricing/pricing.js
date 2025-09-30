@@ -36,10 +36,10 @@ export function pricing() {
         $(".month-radio").removeClass("is-active");
         $(this).addClass("is-active");
 
-        const type = $(this).attr("data-month-year");
+        /*const type = $(this).attr("data-month-year");
         const text = type === "year" ? "Per year" : "Per month";
 
-        $("[data-month-year='text']").text(text);
+        $("[data-month-year='text']").text(text);*/
     });
 
 
@@ -85,7 +85,7 @@ export function pricing() {
             $("[data-price-value='Pro']").text(isMonthly ? proMonthly : proYearly);
 
             // Label Month/Year
-            $("[data-month-year='text']").text(isMonthly ? "Per month" : "Per year");
+            //$("[data-month-year='text']").text(isMonthly ? "Per month" : "Per year");
         }
 
         function syncToggleFrom($link) {
