@@ -32,6 +32,7 @@ import { calculator } from './free-demo/calculator.js';
 import { formValidation } from './form-validation/form-validation.js';
 import { buttonsHover } from './buttons/button-hover.js';
 import { exitIntentPopup } from './exit-intent/exit-intent-popup.js';
+import { lenisScroll } from './scroll/lenis-scroll.js';
 
 
 
@@ -46,6 +47,7 @@ function initAll() {
     requestAnimationFrame(() => {
     
     */
+    lenisScroll();
     exitIntentPopup();
     buttonsHover();
     formValidation();
